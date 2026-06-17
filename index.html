@@ -221,7 +221,7 @@
     </div>
 
     <script>
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwg9zNtNhc9uTI1GHJ7yxBBiCNV--Gxn-MiEZn84iAJB2tJclcq9AUYT4w1DM1L2ZbeMw/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzplAMZ-pS2LtqvSbAR7ady0oAhHbLlhNQDhnt63svDSDcEB4CzsC5_oaKO8cqyV04/exec';
         
         document.getElementById('dataForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -237,18 +237,21 @@
                 return;
             }
             
-            const formData = {
-                field1: document.getElementById('field1').value,
-                field2: document.getElementById('field2').value,
-                field3: document.getElementById('field3').value,
-                field4: document.getElementById('field4').value,
-                field5: document.getElementById('field5').value,
-                field6: document.getElementById('field6').value,
-                field7: document.getElementById('field7').value,
-                field8: document.getElementById('field8').value,
-                field9: document.getElementById('field9').value
-            };
-            
+     const formDataObj = new FormData();
+formDataObj.append('field1', document.getElementById('field1').value);
+formDataObj.append('field2', document.getElementById('field2').value);
+formDataObj.append('field3', document.getElementById('field3').value);
+formDataObj.append('field4', document.getElementById('field4').value);
+formDataObj.append('field5', document.getElementById('field5').value);
+formDataObj.append('field6', document.getElementById('field6').value);
+formDataObj.append('field7', document.getElementById('field7').value);
+formDataObj.append('field8', document.getElementById('field8').value);
+formDataObj.append('field9', document.getElementById('field9').value);
+const response = await fetch(GOOGLE_SCRIPT_URL, {
+    method: 'POST',
+    body: formDataObj
+});
+
             submitBtn.disabled = true;
             loading.style.display = 'block';
             status.style.display = 'none';

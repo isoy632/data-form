@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html_code = '''<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,13 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: 
+                linear-gradient(rgba(102, 126, 234, 0.7), rgba(118, 75, 162, 0.7)),
+                url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -221,9 +227,9 @@
     </div>
 
     <script>
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzj7zf0Q0tEKGnAgSJUn1_Azv41-PdmRWwLQRIiUU8hpdffQP93Dvvh1Y4T8cwS0G79hw/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwgB6frapI8UXHoLJvddgCV2nruPLnCbuAHcvcnu58IdhENjzAewZTE_314mlEAoGJVKw/exec';
         
-        document.getElementById('dataForm').addEventListener('submit', function(e) {
+        document.getElementById('dataForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const submitBtn = document.getElementById('submitBtn');
@@ -237,49 +243,56 @@
                 return;
             }
             
+            const formDataObj = new FormData();
+            formDataObj.append('field1', document.getElementById('field1').value);
+            formDataObj.append('field2', document.getElementById('field2').value);
+            formDataObj.append('field3', document.getElementById('field3').value);
+            formDataObj.append('field4', document.getElementById('field4').value);
+            formDataObj.append('field5', document.getElementById('field5').value);
+            formDataObj.append('field6', document.getElementById('field6').value);
+            formDataObj.append('field7', document.getElementById('field7').value);
+            formDataObj.append('field8', document.getElementById('field8').value);
+            formDataObj.append('field9', document.getElementById('field9').value);
+            
             submitBtn.disabled = true;
             loading.style.display = 'block';
             status.style.display = 'none';
             
-            // Создаём скрытый iframe для отправки (обходит CORS)
-            const iframe = document.createElement('iframe');
-            iframe.name = 'hidden-iframe';
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-            
-            // Создаём форму для отправки в iframe
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = GOOGLE_SCRIPT_URL;
-            form.target = 'hidden-iframe';
-            
-            // Добавляем все поля
-            const fields = ['field1', 'field2', 'field3', 'field4', 'field5', 'field6', 'field7', 'field8', 'field9'];
-            fields.forEach(field => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = field;
-                input.value = document.getElementById(field).value;
-                form.appendChild(input);
-            });
-            
-            document.body.appendChild(form);
-            form.submit();
-            
-            // Показываем успех через 2 секунды
-            setTimeout(function() {
-                status.className = 'status success';
-                status.textContent = '✅ Данные успешно отправлены!';
-                status.style.display = 'block';
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: formDataObj
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    status.className = 'status success';
+                    status.textContent = '✅ ' + result.message;
+                    document.getElementById('dataForm').reset();
+                } else {
+                    throw new Error(result.message);
+                }
+                
+            } catch (error) {
+                status.className = 'status error';
+                status.textContent = '❌ Ошибка: ' + error.message;
+                console.error('Ошибка:', error);
+            } finally {
                 submitBtn.disabled = false;
                 loading.style.display = 'none';
-                document.getElementById('dataForm').reset();
+                status.style.display = 'block';
                 
-                // Удаляем временные элементы
-                document.body.removeChild(form);
-                document.body.removeChild(iframe);
-            }, 2000);
+                setTimeout(() => {
+                    status.style.display = 'none';
+                }, 5000);
+            }
         });
     </script>
 </body>
-</html>
+</html>'''
+
+with open('/mnt/agents/output/index.html', 'w', encoding='utf-8') as f:
+    f.write(html_code)
+
+print("Файл сохранен!")

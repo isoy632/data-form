@@ -152,7 +152,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>📋 Форма ввода данных</h1>
+        <h1>📋 Форма данных амбулаторного больного</h1>
         <p class="subtitle">Все данные сохраняются в Google Sheets автоматически</p>
         
         <form id="dataForm">
@@ -162,57 +162,57 @@
                     <input type="text" id="field1" name="field1" required placeholder="Порядковый номер">
                 </div>
                 <div class="form-group">
-                    <label for="field2">Номер амбулаторной карты*</label>
+                    <label for="field2">Номер амбулаторной карты *</label>
                     <input type="text" id="field2" name="field2" required placeholder="Номер амбулаторной карты">
                 </div>
             </div>
             
             <div class="row">
-                   <div class="form-group">
+                <div class="form-group">
                     <label for="field3">ФИО *</label>
-                    <input type="text" id="field3" name="field3"  required placeholder="Иванов Иван Иванович">
+                    <input type="text" id="field3" name="field3" required placeholder="Иванов Иван Иванович">
                 </div>
                 <div class="form-group">
                     <label for="field4">Дата Обращения</label>
-                    <input type="date" id="field4" name="field4" placeholder="ДД.ММ.ГОД">
+                    <input type="date" id="field4" name="field4">
                 </div>
             </div>
             
             <div class="row">
                 <div class="form-group">
-                    <label for="field5">СНИЛС </label>
-                  <input type="text" id="field5" name="field5" placeholder="001-234-567 89" maxlength="11">
+                    <label for="field5">СНИЛС</label>
+                    <input type="text" id="field5" name="field5" placeholder="001-234-567 89" maxlength="16">
                 </div>
                 <div class="form-group">
-                    <label for="field6">ОМС </label>
-                    <input type="text" id="field5" name="field5" placeholder="001-234-567 89" maxlength="16">
+                    <label for="field6">ОМС</label>
+                    <input type="text" id="field6" name="field6" placeholder="001-234-567 89" maxlength="16">
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="field7">код пациента</label>
-               <select id="field7" name="field7">
-                        <option value="">-- Выберите --</option>
-                        <option value="Вариант 1">111(военные)</option>
-                        <option value="Вариант 2">000(гражданские)</option>
-                    </select>
-                </div>
+                <label for="field7">Код пациента</label>
+                <select id="field7" name="field7">
+                    <option value="">-- Выберите --</option>
+                    <option value="111">111 (военные)</option>
+                    <option value="000">000 (гражданские)</option>
+                </select>
+            </div>
             
             <div class="row">
                 <div class="form-group">
                     <label for="field8">Работает</label>
-                    <input type="text" id="field8" name="field8" placeholder="работа,учеба">
+                    <input type="text" id="field8" name="field8" placeholder="работа, учеба">
                 </div>
                 <div class="form-group">
-                    <label for="field9">Амбулаторная карта </label>
+                    <label for="field9">Амбулаторная карта</label>
                     <select id="field9" name="field9">
                         <option value="">-- Выберите --</option>
-                        <option value="Вариант 1">на руки</option>
-                        <option value="Вариант 2">в регистратуру</option>
-                        <option value="Вариант 3">в кабинете</option>
+                        <option value="на руки">на руки</option>
+                        <option value="в регистратуру">в регистратуру</option>
+                        <option value="в кабинете">в кабинете</option>
                     </select>
                 </div>
-   
+            </div>
 
             <button type="submit" id="submitBtn">📤 Отправить в базу</button>
             <div class="loading" id="loading">⏳ Отправка данных...</div>
@@ -221,8 +221,7 @@
     </div>
 
     <script>
-        // ⚠️ ЗАМЕНИТЕ ЭТОТ URL на URL вашего развернутого веб-приложения Google Apps Script
-        const GOOGLE_SCRIPT_URL = 'https://docs.google.com/spreadsheets/d/1lYYgZTHQaPTuHO-tRwqmE6KztLnHIk4BOVv04nshkxE/edit?pli=1&gid=0#gid=0c';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyuHS9MmYukHqvkyxGWQagH8yBoDZ7jqFGZnxoruMxqyIHe_hXnVbW43zFoDDJolNa8CA/exec';
         
         document.getElementById('dataForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -231,15 +230,13 @@
             const loading = document.getElementById('loading');
             const status = document.getElementById('status');
             
-            // Проверка URL
             if (GOOGLE_SCRIPT_URL === 'ВАШ_URL_ВЕБ_ПРИЛОЖЕНИЯ_ЗДЕСЬ') {
                 status.className = 'status error';
-                status.textContent = '❌ Ошибка: Укажите URL веб-приложения в коде (строка 245)';
+                status.textContent = '❌ Ошибка: Укажите URL веб-приложения в коде';
                 status.style.display = 'block';
                 return;
             }
             
-            // Собираем данные из формы
             const formData = {
                 field1: document.getElementById('field1').value,
                 field2: document.getElementById('field2').value,
@@ -249,14 +246,9 @@
                 field6: document.getElementById('field6').value,
                 field7: document.getElementById('field7').value,
                 field8: document.getElementById('field8').value,
-                field9: document.getElementById('field9').value,
-                field10: document.getElementById('field10').value,
-                field11: document.getElementById('field11').value,
-                field12: document.getElementById('field12').value,
-                field13: document.getElementById('field13').value
+                field9: document.getElementById('field9').value
             };
             
-            // UI состояние загрузки
             submitBtn.disabled = true;
             loading.style.display = 'block';
             status.style.display = 'none';
@@ -289,7 +281,6 @@
                 loading.style.display = 'none';
                 status.style.display = 'block';
                 
-                // Скрыть статус через 5 секунд
                 setTimeout(() => {
                     status.style.display = 'none';
                 }, 5000);

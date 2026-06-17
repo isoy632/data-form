@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма данных амбулаторного больного</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status {
+            text-align: center;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+            color: #667eea;
+        }
+        
+        @media (max-width: 600px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Форма ввода данных</h1>
+        <p class="subtitle">Все данные сохраняются в Google Sheets автоматически</p>
+        
+        <form id="dataForm">
+            <div class="row">
+                <div class="form-group">
+                    <label for="field1">Порядковый номер *</label>
+                    <input type="text" id="field1" name="field1" required placeholder="Порядковый номер">
+                </div>
+                <div class="form-group">
+                    <label for="field2">Номер амбулаторной карты*</label>
+                    <input type="text" id="field2" name="field2" required placeholder="Номер амбулаторной карты">
+                </div>
+            </div>
+            
+            <div class="row">
+                   <div class="form-group">
+                    <label for="field3">ФИО *</label>
+                    <input type="text" id="field3" name="field3"  required placeholder="Иванов Иван Иванович">
+                </div>
+                <div class="form-group">
+                    <label for="field4">Дата Обращения</label>
+                    <input type="date" id="field4" name="field4" placeholder="ДД.ММ.ГОД">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label for="field5">СНИЛС </label>
+                  <input type="text" id="field5" name="field5" placeholder="001-234-567 89" maxlength="11">
+                </div>
+                <div class="form-group">
+                    <label for="field6">ОМС </label>
+                    <input type="text" id="field5" name="field5" placeholder="001-234-567 89" maxlength="16">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="field7">код пациента</label>
+               <select id="field7" name="field7">
+                        <option value="">-- Выберите --</option>
+                        <option value="Вариант 1">111(военные)</option>
+                        <option value="Вариант 2">000(гражданские)</option>
+                    </select>
+                </div>
+            
+            <div class="row">
+                <div class="form-group">
+                    <label for="field8">Работает</label>
+                    <input type="text" id="field8" name="field8" placeholder="работа,учеба">
+                </div>
+                <div class="form-group">
+                    <label for="field9">Амбулаторная карта </label>
+                    <select id="field9" name="field9">
+                        <option value="">-- Выберите --</option>
+                        <option value="Вариант 1">на руки</option>
+                        <option value="Вариант 2">в регистратуру</option>
+                        <option value="Вариант 3">в кабинете</option>
+                    </select>
+                </div>
+   
+
+            <button type="submit" id="submitBtn">📤 Отправить в базу</button>
+            <div class="loading" id="loading">⏳ Отправка данных...</div>
+            <div class="status" id="status"></div>
+        </form>
+    </div>
+
+    <script>
+        // ⚠️ ЗАМЕНИТЕ ЭТОТ URL на URL вашего развернутого веб-приложения Google Apps Script
+        const GOOGLE_SCRIPT_URL = 'https://docs.google.com/spreadsheets/d/1lYYgZTHQaPTuHO-tRwqmE6KztLnHIk4BOVv04nshkxE/edit?pli=1&gid=0#gid=0c';
+        
+        document.getElementById('dataForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const status = document.getElementById('status');
+            
+            // Проверка URL
+            if (GOOGLE_SCRIPT_URL === 'ВАШ_URL_ВЕБ_ПРИЛОЖЕНИЯ_ЗДЕСЬ') {
+                status.className = 'status error';
+                status.textContent = '❌ Ошибка: Укажите URL веб-приложения в коде (строка 245)';
+                status.style.display = 'block';
+                return;
+            }
+            
+            // Собираем данные из формы
+            const formData = {
+                field1: document.getElementById('field1').value,
+                field2: document.getElementById('field2').value,
+                field3: document.getElementById('field3').value,
+                field4: document.getElementById('field4').value,
+                field5: document.getElementById('field5').value,
+                field6: document.getElementById('field6').value,
+                field7: document.getElementById('field7').value,
+                field8: document.getElementById('field8').value,
+                field9: document.getElementById('field9').value,
+                field10: document.getElementById('field10').value,
+                field11: document.getElementById('field11').value,
+                field12: document.getElementById('field12').value,
+                field13: document.getElementById('field13').value
+            };
+            
+            // UI состояние загрузки
+            submitBtn.disabled = true;
+            loading.style.display = 'block';
+            status.style.display = 'none';
+            
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    status.className = 'status success';
+                    status.textContent = '✅ ' + result.message;
+                    document.getElementById('dataForm').reset();
+                } else {
+                    throw new Error(result.message);
+                }
+                
+            } catch (error) {
+                status.className = 'status error';
+                status.textContent = '❌ Ошибка: ' + error.message;
+                console.error('Ошибка:', error);
+            } finally {
+                submitBtn.disabled = false;
+                loading.style.display = 'none';
+                status.style.display = 'block';
+                
+                // Скрыть статус через 5 секунд
+                setTimeout(() => {
+                    status.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>

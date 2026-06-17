@@ -237,7 +237,7 @@
                 return;
             }
             
-     const formDataObj = new FormData();
+  const formDataObj = new FormData();
 formDataObj.append('field1', document.getElementById('field1').value);
 formDataObj.append('field2', document.getElementById('field2').value);
 formDataObj.append('field3', document.getElementById('field3').value);
@@ -247,32 +247,40 @@ formDataObj.append('field6', document.getElementById('field6').value);
 formDataObj.append('field7', document.getElementById('field7').value);
 formDataObj.append('field8', document.getElementById('field8').value);
 formDataObj.append('field9', document.getElementById('field9').value);
-const response = await fetch(GOOGLE_SCRIPT_URL, {
-    method: 'POST',
-    body: formDataObj
-});
 
-            submitBtn.disabled = true;
-            loading.style.display = 'block';
-            status.style.display = 'none';
-            
-            try {
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
-                
-                const result = await response.json();
-                
-                if (result.status === 'success') {
-                    status.className = 'status success';
-                    status.textContent = '✅ ' + result.message;
-                    document.getElementById('dataForm').reset();
-                } else {
-                    throw new Error(result.message);
+submitBtn.disabled = true;
+loading.style.display = 'block';
+status.style.display = 'none';
+
+try {
+    const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        body: formDataObj
+    });
+    
+    const result = await response.json();
+    
+    if (result.status === 'success') {
+        status.className = 'status success';
+        status.textContent = '✅ ' + result.message;
+        document.getElementById('dataForm').reset();
+    } else {
+        throw new Error(result.message);
+    }
+    
+} catch (error) {
+    status.className = 'status error';
+    status.textContent = '❌ Ошибка: ' + error.message;
+    console.error('Ошибка:', error);
+} finally {
+    submitBtn.disabled = false;
+    loading.style.display = 'none';
+    status.style.display = 'block';
+    
+    setTimeout(() => {
+        status.style.display = 'none';
+    }, 5000);
+}
                 }
                 
             } catch (error) {

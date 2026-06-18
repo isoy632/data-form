@@ -224,12 +224,6 @@
             background: #c0392b;
         }
         
-        .auto-field {
-            background: #f0f0f0;
-            color: #666;
-            cursor: not-allowed;
-        }
-        
         @media (max-width: 600px) {
             .row {
                 grid-template-columns: 1fr;
@@ -246,39 +240,46 @@
         <p class="subtitle">Болеть незя дорого это нынче</p>
         
         <form id="dataForm">
+            <!-- field1 = B: п/п -->
             <div class="row">
                 <div class="form-group">
                     <label for="field1">П/п *</label>
                     <input type="text" id="field1" name="field1" required placeholder="Порядковый номер">
                 </div>
+                <!-- field2 = C: номер карты -->
                 <div class="form-group">
                     <label for="field2">Номер амбулаторной карты *</label>
                     <input type="text" id="field2" name="field2" required placeholder="Номер амбулаторной карты">
                 </div>
             </div>
             
+            <!-- field3 = D: ФИО -->
             <div class="row">
                 <div class="form-group">
                     <label for="field3">ФИО *</label>
                     <input type="text" id="field3" name="field3" required placeholder="Иванов Иван Иванович">
                 </div>
+                <!-- field4 = E: Дата обращения -->
                 <div class="form-group">
-                    <label for="field4">Дата рождения</label>
+                    <label for="field4">Дата обращения</label>
                     <input type="date" id="field4" name="field4">
                 </div>
             </div>
             
+            <!-- field5 = F: СНИЛС -->
             <div class="row">
                 <div class="form-group">
                     <label for="field5">СНИЛС</label>
                     <input type="text" id="field5" name="field5" placeholder="001-234-567 89" maxlength="16">
                 </div>
+                <!-- field6 = G: ОМС -->
                 <div class="form-group">
                     <label for="field6">ОМС</label>
                     <input type="text" id="field6" name="field6" placeholder="001-234-567 89" maxlength="16">
                 </div>
             </div>
             
+            <!-- field7 = H: Код пациента -->
             <div class="form-group">
                 <label for="field7">Код пациента</label>
                 <select id="field7" name="field7">
@@ -288,58 +289,47 @@
                 </select>
             </div>
     
+            <!-- field8 = I: прописка -->
             <div class="form-group">
                 <label for="field8">Прописка</label>
                 <input type="text" id="field8" name="field8" placeholder="улица/дом/квартира">
             </div>
             
+            <!-- field9 = J: работа -->
             <div class="row">
                 <div class="form-group">
-                    <label for="field9">Дата обращения</label>
-                    <input type="date" id="field9" name="field9">
+                    <label for="field9">Работает</label>
+                    <input type="text" id="field9" name="field9" placeholder="работа, учеба">
                 </div>
+                <!-- field10 = K: МКБ -->
                 <div class="form-group">
-                    <label for="field10">Работает</label>
-                    <input type="text" id="field10" name="field10" placeholder="работа, учеба">
+                    <label for="field10">Код по МКБ</label>
+                    <input type="text" id="field10" name="field10">
                 </div>
             </div>
             
+            <!-- field11 = L: код начала лечения -->
             <div class="row">
                 <div class="form-group">
-                    <label for="field11">Код по МКБ</label>
+                    <label for="field11">Код начала лечения</label>
                     <input type="text" id="field11" name="field11">
                 </div>
+                <!-- field12 = M: код исхода -->
                 <div class="form-group">
-                    <label for="field12">Код начала лечения</label>
+                    <label for="field12">Код исхода</label>
                     <input type="text" id="field12" name="field12">
                 </div>
             </div>
             
-            <div class="row">
-                <div class="form-group">
-                    <label for="field13">Код исхода</label>
-                    <input type="text" id="field13" name="field13">
-                </div>
-                <div class="form-group">
-                    <label for="field14">Амбулаторная карта</label>
-                    <select id="field14" name="field14">
-                        <option value="">-- Выберите --</option>
-                        <option value="на руки">на руки</option>
-                        <option value="в регистратуру">в регистратуру</option>
-                        <option value="в кабинете">в кабинете</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="form-group">
-                    <label for="field15">Дата заполнения (авто)</label>
-                    <input type="text" id="field15" name="field15" class="auto-field" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="field16">Дней (авто)</label>
-                    <input type="text" id="field16" name="field16" class="auto-field" readonly>
-                </div>
+            <!-- field13 = O: Амбулаторная карта -->
+            <div class="form-group">
+                <label for="field13">Амбулаторная карта</label>
+                <select id="field13" name="field13">
+                    <option value="">-- Выберите --</option>
+                    <option value="на руки">на руки</option>
+                    <option value="в регистратуру">в регистратуру</option>
+                    <option value="в кабинете">в кабинете</option>
+                </select>
             </div>
 
             <button type="submit" id="submitBtn">📤 Отправить в базу</button>
@@ -400,11 +390,6 @@
             return day + '.' + month + '.' + year;
         }
         
-        // Сегодняшняя дата
-        function getToday() {
-            return formatDate(new Date());
-        }
-        
         // Расчёт дней между датой обращения и сегодня
         function calcDays(dateOb) {
             if (!dateOb) return '';
@@ -415,17 +400,6 @@
             const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
             return diffDays >= 0 ? diffDays : 0;
         }
-        
-        // Обновление авто-полей
-        function updateAutoFields() {
-            document.getElementById('field15').value = getToday();
-            const dateOb = document.getElementById('field9').value;
-            document.getElementById('field16').value = calcDays(dateOb);
-        }
-        
-        // Слушаем изменение даты обращения
-        document.getElementById('field9').addEventListener('change', updateAutoFields);
-        document.getElementById('field9').addEventListener('input', updateAutoFields);
         
         // Отображение таблицы
         function renderTable() {
@@ -439,21 +413,21 @@
             tbody.innerHTML = patientsData.map((p, index) => `
                 <tr>
                     <td>${index + 1}</td>
-                    <td>${escapeHtml(p.field15) || ''}</td>
+                    <td>${formatDate(new Date())}</td>
                     <td>${escapeHtml(p.field1) || ''}</td>
                     <td>${escapeHtml(p.field2) || ''}</td>
                     <td>${escapeHtml(p.field3) || ''}</td>
-                    <td>${formatDate(p.field9)}</td>
+                    <td>${formatDate(p.field4)}</td>
                     <td>${escapeHtml(p.field5) || ''}</td>
                     <td>${escapeHtml(p.field6) || ''}</td>
                     <td>${escapeHtml(p.field7) || ''}</td>
                     <td>${escapeHtml(p.field8) || ''}</td>
+                    <td>${escapeHtml(p.field9) || ''}</td>
                     <td>${escapeHtml(p.field10) || ''}</td>
                     <td>${escapeHtml(p.field11) || ''}</td>
                     <td>${escapeHtml(p.field12) || ''}</td>
+                    <td>${calcDays(p.field4)}</td>
                     <td>${escapeHtml(p.field13) || ''}</td>
-                    <td>${escapeHtml(p.field16) || ''}</td>
-                    <td>${escapeHtml(p.field14) || ''}</td>
                     <td><button class="delete-btn" onclick="deleteRow(${index})">🗑️</button></td>
                 </tr>
             `).join('');
@@ -474,9 +448,6 @@
             }
         };
         
-        // При загрузке страницы
-        updateAutoFields();
-        
         document.getElementById('dataForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -484,38 +455,26 @@
             const loading = document.getElementById('loading');
             const status = document.getElementById('status');
             
-            // Обновляем авто-поля перед отправкой
-            updateAutoFields();
-            
-            // Собираем данные из формы (порядок СТРОГО соответствует столбцам таблицы A-O)
+            // Собираем данные из формы (строго field1→field13 для скрипта)
             const formData = {
-                field15: document.getElementById('field15').value,  // A - Дата (авто)
-                field1: document.getElementById('field1').value,     // B - п/п
-                field2: document.getElementById('field2').value,     // C - номер карты
-                field3: document.getElementById('field3').value,     // D - ФИО
-                field9: document.getElementById('field9').value,     // E - Дата обращения
-                field5: document.getElementById('field5').value,     // F - СНИЛС
-                field6: document.getElementById('field6').value,     // G - ОМС
-                field7: document.getElementById('field7').value,     // H - Код пациента
-                field8: document.getElementById('field8').value,     // I - прописка
-                field10: document.getElementById('field10').value,   // J - работа
-                field11: document.getElementById('field11').value,   // K - МКБ
-                field12: document.getElementById('field12').value,   // L - код начала
-                field13: document.getElementById('field13').value,   // M - код исхода
-                field16: document.getElementById('field16').value,   // N - День (авто)
-                field14: document.getElementById('field14').value,   // O - Амбулаторная карта
+                field1: document.getElementById('field1').value,   // B - п/п
+                field2: document.getElementById('field2').value,   // C - номер карты
+                field3: document.getElementById('field3').value,   // D - ФИО
+                field4: document.getElementById('field4').value,   // E - Дата обращения
+                field5: document.getElementById('field5').value,   // F - СНИЛС
+                field6: document.getElementById('field6').value,   // G - ОМС
+                field7: document.getElementById('field7').value,   // H - Код пациента
+                field8: document.getElementById('field8').value,   // I - прописка
+                field9: document.getElementById('field9').value,   // J - работа
+                field10: document.getElementById('field10').value, // K - МКБ
+                field11: document.getElementById('field11').value, // L - код начала
+                field12: document.getElementById('field12').value, // M - код исхода
+                field13: document.getElementById('field13').value, // O - Амбулаторная карта
             };
             
             // Добавляем в локальную таблицу
             patientsData.push(formData);
             renderTable();
-            
-            if (GOOGLE_SCRIPT_URL === 'ВАШ_URL_ВЕБ_ПРИЛОЖЕНИЯ_ЗДЕСЬ') {
-                status.className = 'status error';
-                status.textContent = '❌ Ошибка: Укажите URL веб-приложения в коде';
-                status.style.display = 'block';
-                return;
-            }
             
             const formDataObj = new FormData();
             Object.keys(formData).forEach(key => {
@@ -538,7 +497,6 @@
                     status.className = 'status success';
                     status.textContent = '✅ ' + result.message;
                     document.getElementById('dataForm').reset();
-                    updateAutoFields();
                 } else {
                     throw new Error(result.message);
                 }

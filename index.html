@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+html_content = '''<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -33,7 +34,7 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             padding: 40px;
             width: 100%;
-            max-width: 600px;
+            max-width: 1200px;
         }
         
         h1 {
@@ -146,6 +147,84 @@
             color: #667eea;
         }
         
+        /* Стили таблицы */
+        .table-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .table-section h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 13px;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        th {
+            padding: 12px 10px;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #444;
+        }
+        
+        tbody tr:hover {
+            background: #f8f9ff;
+        }
+        
+        tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        tbody tr:nth-child(even):hover {
+            background: #f0f2ff;
+        }
+        
+        .empty-msg {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+            font-style: italic;
+        }
+        
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+        
         @media (max-width: 600px) {
             .row {
                 grid-template-columns: 1fr;
@@ -173,14 +252,13 @@
                 </div>
             </div>
             
-            </div>
             <div class="row">
                 <div class="form-group">
                     <label for="field3">ФИО *</label>
                     <input type="text" id="field3" name="field3" required placeholder="Иванов Иван Иванович">
                 </div>
                 <div class="form-group">
-                    <label for="field4">дата рождения</label>
+                    <label for="field4">Дата рождения</label>
                     <input type="date" id="field4" name="field4">
                 </div>
             </div>
@@ -205,51 +283,124 @@
                 </select>
             </div>
     
-        <div class="form-group">
-                    <label for="field8">прописка</label>
-                    <input type="date" id="field8" name="field8" placeholder=улица/дом/квартира>
-                </div>
+            <div class="form-group">
+                <label for="field8">Прописка</label>
+                <input type="text" id="field8" name="field8" placeholder="улица/дом/квартира">
             </div>
-    <div class="form-group">
-                    <label for="field10">код по мкб</label>
-                    <input type="text" id="field10" name="field10">
-                </div>
-</div>
+            
+            <div class="form-group">
+                <label for="field10">Код по МКБ</label>
+                <input type="text" id="field10" name="field10">
+            </div>
+            
             <div class="row">
                 <div class="form-group">
-                    <label for="field8">Работает</label>
+                    <label for="field9">Работает</label>
                     <input type="text" id="field9" name="field9" placeholder="работа, учеба">
                 </div>
                 <div class="form-group">
-                    <label for="field11">пть</label>
+                    <label for="field11">ПТУ</label>
                     <input type="text" id="field11" name="field11">
                 </div>
             </div>
-    <div class="form-group">
-                    <label for="field12">пть2</label>
-                    <input type="text" id="field12" name="field12">
-                </div>
-</div>
-    
-                <div class="form-group">
-                    <label for="field13">Амбулаторная карта</label>
-                    <select id="field13" name="field13">
-                        <option value="">-- Выберите --</option>
-                        <option value="на руки">на руки</option>
-                        <option value="в регистратуру">в регистратуру</option>
-                        <option value="в кабинете">в кабинете</option>
-                    </select>
-                </div>
+            
+            <div class="form-group">
+                <label for="field12">ПТУ2</label>
+                <input type="text" id="field12" name="field12">
+            </div>
+        
+            <div class="form-group">
+                <label for="field13">Амбулаторная карта</label>
+                <select id="field13" name="field13">
+                    <option value="">-- Выберите --</option>
+                    <option value="на руки">на руки</option>
+                    <option value="в регистратуру">в регистратуру</option>
+                    <option value="в кабинете">в кабинете</option>
+                </select>
             </div>
 
             <button type="submit" id="submitBtn">📤 Отправить в базу</button>
             <div class="loading" id="loading">⏳ Отправка данных...</div>
             <div class="status" id="status"></div>
         </form>
+
+        <!-- Таблица данных -->
+        <div class="table-section">
+            <h2>📊 Таблица пациентов</h2>
+            <div class="table-container">
+                <table id="patientsTable">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>П/п</th>
+                            <th>№ карты</th>
+                            <th>ФИО</th>
+                            <th>Дата рожд.</th>
+                            <th>СНИЛС</th>
+                            <th>ОМС</th>
+                            <th>Код</th>
+                            <th>Прописка</th>
+                            <th>МКБ</th>
+                            <th>Работает</th>
+                            <th>ПТУ</th>
+                            <th>ПТУ2</th>
+                            <th>Карта</th>
+                            <th>Действие</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td colspan="15" class="empty-msg">Пока нет данных — заполните форму выше</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <script>
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwZVVUmpsSRSrgbQpYarXECfdEmuve_6cA6SIlKO8jt-Wt9rbfuRdYfge3VsS8AxZuSSQ/exec';
+        
+        // Хранилище данных в памяти
+        let patientsData = [];
+        
+        // Отображение таблицы
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            
+            if (patientsData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="15" class="empty-msg">Пока нет данных — заполните форму выше</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = patientsData.map((p, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${p.field1 || ''}</td>
+                    <td>${p.field2 || ''}</td>
+                    <td>${p.field3 || ''}</td>
+                    <td>${p.field4 || ''}</td>
+                    <td>${p.field5 || ''}</td>
+                    <td>${p.field6 || ''}</td>
+                    <td>${p.field7 || ''}</td>
+                    <td>${p.field8 || ''}</td>
+                    <td>${p.field10 || ''}</td>
+                    <td>${p.field9 || ''}</td>
+                    <td>${p.field11 || ''}</td>
+                    <td>${p.field12 || ''}</td>
+                    <td>${p.field13 || ''}</td>
+                    <td><button class="delete-btn" onclick="deleteRow(${index})">🗑️</button></td>
+                </tr>
+            `).join('');
+        }
+        
+        // Удаление строки
+        window.deleteRow = function(index) {
+            if (confirm('Удалить эту запись?')) {
+                patientsData.splice(index, 1);
+                renderTable();
+            }
+        };
         
         document.getElementById('dataForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -257,6 +408,27 @@
             const submitBtn = document.getElementById('submitBtn');
             const loading = document.getElementById('loading');
             const status = document.getElementById('status');
+            
+            // Собираем данные из формы
+            const formData = {
+                field1: document.getElementById('field1').value,
+                field2: document.getElementById('field2').value,
+                field3: document.getElementById('field3').value,
+                field4: document.getElementById('field4').value,
+                field5: document.getElementById('field5').value,
+                field6: document.getElementById('field6').value,
+                field7: document.getElementById('field7').value,
+                field8: document.getElementById('field8').value,
+                field9: document.getElementById('field9').value,
+                field10: document.getElementById('field10').value,
+                field11: document.getElementById('field11').value,
+                field12: document.getElementById('field12').value,
+                field13: document.getElementById('field13').value,
+            };
+            
+            // Добавляем в локальную таблицу
+            patientsData.push(formData);
+            renderTable();
             
             if (GOOGLE_SCRIPT_URL === 'ВАШ_URL_ВЕБ_ПРИЛОЖЕНИЯ_ЗДЕСЬ') {
                 status.className = 'status error';
@@ -266,19 +438,9 @@
             }
             
             const formDataObj = new FormData();
-            formDataObj.append('field1', document.getElementById('field1').value);
-            formDataObj.append('field2', document.getElementById('field2').value);
-            formDataObj.append('field3', document.getElementById('field3').value);
-            formDataObj.append('field4', document.getElementById('field4').value);
-            formDataObj.append('field5', document.getElementById('field5').value);
-            formDataObj.append('field6', document.getElementById('field6').value);
-            formDataObj.append('field7', document.getElementById('field7').value);
-            formDataObj.append('field8', document.getElementById('field8').value);
-            formDataObj.append('field9', document.getElementById('field9').value);
-            formDataObj.append('field10', document.getElementById('field10').value);
-            formDataObj.append('field11', document.getElementById('field11').value);
-            formDataObj.append('field12', document.getElementById('field12').value);
-            formDataObj.append('field13', document.getElementById('field13').value);
+            Object.keys(formData).forEach(key => {
+                formDataObj.append(key, formData[key]);
+            });
             
             submitBtn.disabled = true;
             loading.style.display = 'block';
@@ -316,4 +478,9 @@
         });
     </script>
 </body>
-</html>
+</html>'''
+
+with open('/mnt/agents/output/index.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("Файл сохранён!")

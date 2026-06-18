@@ -173,6 +173,7 @@
                 </div>
             </div>
             
+            </div>
             <div class="row">
                 <div class="form-group">
                     <label for="field3">ФИО *</label>
@@ -203,15 +204,36 @@
                     <option value="000">000 (гражданские)</option>
                 </select>
             </div>
-            
+    
+        <div class="form-group">
+                    <label for="field8">прописка</label>
+                    <input type="date" id="field8" name="field8" placeholder=улица/дом/квартира>
+                </div>
+            </div>
+    <div class="form-group">
+                    <label for="field10">код по мкб</label>
+                    <input type="text" id="field10" name="field10">
+                </div>
+</div>
             <div class="row">
                 <div class="form-group">
                     <label for="field8">Работает</label>
-                    <input type="text" id="field8" name="field8" placeholder="работа, учеба">
+                    <input type="text" id="field9" name="field9" placeholder="работа, учеба">
                 </div>
                 <div class="form-group">
-                    <label for="field9">Амбулаторная карта</label>
-                    <select id="field9" name="field9">
+                    <label for="field11">пть</label>
+                    <input type="text" id="field11" name="field11">
+                </div>
+            </div>
+    <div class="form-group">
+                    <label for="field12">пть2</label>
+                    <input type="text" id="field12" name="field12">
+                </div>
+</div>
+    
+                <div class="form-group">
+                    <label for="field13">Амбулаторная карта</label>
+                    <select id="field13" name="field13">
                         <option value="">-- Выберите --</option>
                         <option value="на руки">на руки</option>
                         <option value="в регистратуру">в регистратуру</option>
@@ -253,6 +275,10 @@
             formDataObj.append('field7', document.getElementById('field7').value);
             formDataObj.append('field8', document.getElementById('field8').value);
             formDataObj.append('field9', document.getElementById('field9').value);
+            formDataObj.append('field10', document.getElementById('field10').value);
+            formDataObj.append('field11', document.getElementById('field11').value);
+            formDataObj.append('field12', document.getElementById('field12').value);
+            formDataObj.append('field13', document.getElementById('field13').value);
             
             submitBtn.disabled = true;
             loading.style.display = 'block';
